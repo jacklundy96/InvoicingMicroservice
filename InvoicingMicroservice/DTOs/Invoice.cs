@@ -12,7 +12,7 @@ namespace InvoicingMicroservice.DTOs
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
-        public string ContactEmail { get; set; }
+        public int CustomerID { get; set; }
         public int OrderID { get; set; }
         public int ProductID { get; set; }
         public string ProductName { get; set; }
@@ -20,6 +20,6 @@ namespace InvoicingMicroservice.DTOs
         public int Quantity { get; set; }
         public string Total { get; set; }
         public DateTime PaymentDateTime { get; set; }
-        public bool hasInvoice {get; set;}
+        public int hasInvoice {get; set;}
     }
 }

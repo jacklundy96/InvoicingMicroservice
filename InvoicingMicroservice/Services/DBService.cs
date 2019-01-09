@@ -18,8 +18,6 @@ namespace InvoicingMicroservice.Services
         void DeleteInvoices(int InvoiceID);
     }
 
-
-
     public class DBService : IDBService
     {
         private readonly InvoiceContext _context;
