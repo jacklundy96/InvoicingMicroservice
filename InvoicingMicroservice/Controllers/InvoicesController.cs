@@ -7,15 +7,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using InvoicingMicroservice.DB;
 using InvoicingMicroservice.DTOs;
+using InvoicingMicroservice.Services;
 
 namespace InvoicingMicroservice.Controllers
 {
     public class InvoicesController : Controller
     {
         private readonly InvoiceContext _context;
+         {
+        private readonly InvoiceSenderService _iss;
 
-        public InvoicesController(InvoiceContext context)
+        public InvoicesController(InvoiceContext context,InvoiceSenderService iss)
         {
+            _iss = iss;
             _context = context;
         }
 
@@ -31,6 +35,10 @@ namespace InvoicingMicroservice.Controllers
 
         public async Task<IActionResult> SendInvoice(int id)
         {
+
+
+            SendInvoice()
+
             return View(await _context.Invoices.ToListAsync());
         }      
     }
