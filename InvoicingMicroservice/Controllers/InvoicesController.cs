@@ -23,7 +23,6 @@ namespace InvoicingMicroservice.Controllers
             _context = context;
         }
 
-        // GET: Invoices
         public IActionResult Index()
         {
             var Invoices = _context.GetAllInvoices();
@@ -33,7 +32,7 @@ namespace InvoicingMicroservice.Controllers
 
         public async Task<IActionResult> SendInvoice(int id)
         {          
-            _iss.SendInvoice(_context.GetInvoice(id));
+            _iss.SendInvoiceAsync(_context.GetInvoice(id));
             _context.UpdateInvoicedStatus(id);
             return RedirectToAction("Index");
         }      

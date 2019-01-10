@@ -9,6 +9,10 @@ namespace InvoicingMicroservice.Fakes
 {
     public class FakeCustomerDetailsService : ICustomerService
     {
+        public FakeCustomerDetailsService()
+        {
+        }
+
         public async Task<Customer> GetCustomerDetailsAsync(int CustomerID)
         {
             List<Customer> customers = new List<Customer>()

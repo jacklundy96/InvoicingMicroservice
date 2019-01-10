@@ -1,4 +1,5 @@
 ﻿using InvoicingMicroservice.DTOs;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using SendGrid;
 using SendGrid.Helpers.Mail;
@@ -18,18 +19,21 @@ namespace InvoicingMicroservice.Services
 
     public class InvoiceSenderService
     {
-
         private ICustomerService _cs;
 
         public InvoiceSenderService(ICustomerService cs)
         {
-            _cs = cs;
+            _cs =  cs;
         }
-        public IActionResult SendInvoice(Invoice invoice)
+        public async Task<IActionResult> SendInvoiceAsync(Invoice invoice)
         {
-            //TODO::Get customer info from another service
+           Customer customer = await _cs.GetCustomerDetailsAsync(invoice.CustomerID);
 
-            SendEmail("jacklundy@hotmail.co.uk", "ThamCo Order: ", "Your recent order with ThamCo");
+            string InvoiceContent =
+                $"ThamCo Invoice\n{customer.CompanyName}\n InvoiceNumber: {invoice.ID}\nInvoice Date: {DateTime.Now}\nInvoice Due Date: {invoice.PaidBy}\n" +
+                $"{invoice.Quantity} x {invoice.ProductName} @ {invoice.Cost} = {invoice.Total}";
+
+            SendEmail(customer.CustomerEmail, "ThamCo Order: ", InvoiceContent);
             return new OkResult();
         }
 

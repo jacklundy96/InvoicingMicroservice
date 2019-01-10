@@ -64,6 +64,8 @@ namespace InvoicingMicroservice.Services
                 Quantity = invoice.Quantity,
                 Total = invoice.Total,
                 PaymentDateTime = invoice.PaymentDateTime,
+                InvoicedOn = DateTime.Now,
+                PaidBy = DateTime.Now.AddDays(30),
                 hasInvoice = 1
             };
             DeleteInvoice(InvoiceID);

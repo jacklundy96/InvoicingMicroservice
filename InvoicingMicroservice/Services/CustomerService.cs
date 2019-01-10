@@ -15,13 +15,13 @@ namespace InvoicingMicroservice.Services
         Task<Customer> GetCustomerDetailsAsync(int CustomerID);
     }
 
-    public class CustomerService
+    public class CustomerService : ICustomerService
     {
-        private readonly HttpClient _client; 
+        private readonly HttpClient _client;
 
         public CustomerService(HttpClient client)
         {
-            _client = client; 
+            _client = client;
         }
 
         public async Task<Customer> GetCustomerDetailsAsync(int CustomerID)
@@ -30,21 +30,21 @@ namespace InvoicingMicroservice.Services
             string responseBody = await response.Content.ReadAsStringAsync();
             Customer customer =  ParseJsonIntoCustomerAsync(responseBody);
 
-            return customer;
+            return new Customer();
         }
 
         private Customer ParseJsonIntoCustomerAsync(string responseBody)
         {
-            Customer customer = new Customer() {
-            CustomerID = (int)JObject.Parse(responseBody)["Id"],
-            ContactForename = JObject.Parse(responseBody)["ContactForename"].ToString(),
+            Customer customer = new Customer()
+            {
+                CustomerID = (int)JObject.Parse(responseBody)["Id"],
+                ContactForename = JObject.Parse(responseBody)["ContactForename"].ToString(),
                 ContactSurname = JObject.Parse(responseBody)["ContactSurname"].ToString(),
-            CustomerEmail = JObject.Parse(responseBody)["CustomerEmail"].ToString(),
-            CustomerAddress = JObject.Parse(responseBody)["CustomerAddress"].ToString(),
+                CustomerEmail = JObject.Parse(responseBody)["CustomerEmail"].ToString(),
+                CustomerAddress = JObject.Parse(responseBody)["CustomerAddress"].ToString(),
             };
             return customer;
         }
-
 
     }
 }

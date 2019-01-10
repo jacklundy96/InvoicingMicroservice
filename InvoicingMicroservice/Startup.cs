@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using InvoicingMicroservice.DB;
 using InvoicingMicroservice.DTOs;
+using InvoicingMicroservice.Fakes;
 using InvoicingMicroservice.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -31,10 +33,15 @@ namespace InvoicingMicroservice
             services.AddDbContext<InvoiceContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-
+            HttpClient httpClient = new HttpClient();
+            services.AddSingleton<HttpClient>(httpClient);
 
             services.AddTransient<DBService, DBService>();
-            services.AddTransient<InvoiceSenderService, InvoiceSenderService> ();
+            services.AddTransient<InvoiceSenderService, InvoiceSenderService>();
+
+            services.AddScoped<ICustomerService, CustomerService>();
+
+            services.AddScoped<ICustomerService, FakeCustomerDetailsService>();
 
             services.Configure<CookiePolicyOptions>(options =>
             {

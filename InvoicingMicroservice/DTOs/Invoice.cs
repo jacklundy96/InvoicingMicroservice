@@ -19,5 +19,8 @@ namespace InvoicingMicroservice.DTOs
         public string Total { get; set; }
         public DateTime PaymentDateTime { get; set; }
         public int hasInvoice {get; set;}
+        public DateTime InvoicedOn { get; set; }
+        public DateTime PaidBy { get; set; }
+
     }
 }
