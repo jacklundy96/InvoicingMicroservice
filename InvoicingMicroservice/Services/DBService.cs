@@ -13,9 +13,11 @@ namespace InvoicingMicroservice.Services
 
         Invoice GetInvoice(int InvoiceID);
 
-        List<Invoice> GetAllInvoices(int InvoiceID);
+        List<Invoice> GetAllInvoices();
 
-        void DeleteInvoices(int InvoiceID);
+        void DeleteInvoice(int InvoiceID);
+
+        void UpdateInvoicedStatus(int InvoiceID);
     }
 
     public class DBService : IDBService
@@ -35,18 +37,37 @@ namespace InvoicingMicroservice.Services
 
         public Invoice GetInvoice(int InvoiceID)
         {
-            return _context.Invoices.FirstOrDefault(i => i.OrderID == InvoiceID);
+            return _context.Invoices.FirstOrDefault(i => i.ID == InvoiceID);
         }
 
-        public List<Invoice> GetAllInvoices(int InvoiceID)
+        public List<Invoice> GetAllInvoices()
         {
             return _context.Invoices.Where(i => i.OrderID != -1).ToList();
         }
 
-        public void DeleteInvoices(int InvoiceID)
+        public void DeleteInvoice(int InvoiceID)
         {
-            var invoice = (Invoice)_context.Invoices.Where(i => i.ID == InvoiceID);
+            var invoice = _context.Invoices.FirstOrDefault(i => i.ID == InvoiceID);
             _context.Invoices.Remove(invoice);
+        }
+
+        public void UpdateInvoicedStatus(int InvoiceID)
+        {
+            var invoice = GetInvoice(InvoiceID);
+            Invoice i = new Invoice()
+            {
+                CustomerID = invoice.CustomerID,
+                OrderID = invoice.OrderID,
+                ProductID = invoice.ProductID,
+                ProductName = invoice.ProductName,
+                Cost = invoice.Cost,
+                Quantity = invoice.Quantity,
+                Total = invoice.Total,
+                PaymentDateTime = invoice.PaymentDateTime,
+                hasInvoice = 1
+            };
+            DeleteInvoice(InvoiceID);
+            SaveInvoice(i);
         }
     }
 }

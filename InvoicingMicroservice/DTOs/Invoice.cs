@@ -9,8 +9,6 @@ namespace InvoicingMicroservice.DTOs
 {
     public class Invoice
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
         public int CustomerID { get; set; }
         public int OrderID { get; set; }

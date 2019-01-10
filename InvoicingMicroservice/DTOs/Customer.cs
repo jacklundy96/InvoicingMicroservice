@@ -13,6 +13,8 @@ namespace InvoicingMicroservice.DTOs
 
         public string CustomerAddress { get; set;  }
 
+        public string CompanyName { get; set; }
+
         public string ContactForename { get; set; }
 
         public string ContactSurname { get; set; }

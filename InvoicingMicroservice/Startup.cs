@@ -31,14 +31,10 @@ namespace InvoicingMicroservice
             services.AddDbContext<InvoiceContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services
-            .AddFluentEmail("fromemail@test.test")
-            .AddRazorRenderer()
-            .AddSmtpSender("localhost", 25);
 
 
             services.AddTransient<DBService, DBService>();
-
+            services.AddTransient<InvoiceSenderService, InvoiceSenderService> ();
 
             services.Configure<CookiePolicyOptions>(options =>
             {
