@@ -39,7 +39,7 @@ namespace InvoicingMicroservice.Services
 
         private async Task SendEmail(string email, string subject, string htmlContent)
         {
-            var apiKey = "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";
+            var apiKey = "";
             var client = new SendGridClient(apiKey);
             var from = new EmailAddress("Invoicing@ThamCo.co.uk", "Admin");
             var to = new EmailAddress(email);
