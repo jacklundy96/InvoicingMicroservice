@@ -29,6 +29,9 @@ namespace InvoicingMicroservice.Services
 
         public async Task<Customer> GetCustomerDetailsAsync(int CustomerID)
         {
+            if (CustomerID < 0)
+                return null;
+
             HttpResponseMessage response = await _client.GetAsync("http://www.ThamcoCustomers.com/Customers/" + CustomerID);
             string responseBody = await response.Content.ReadAsStringAsync();
             Customer customer =  ParseJsonIntoCustomerAsync(responseBody);
