@@ -9,7 +9,7 @@ namespace InvoicingMicroservice.Services
 {
     public interface IDBService
     {
-         void SaveInvoice(Invoice invoice);
+        void SaveInvoice(Invoice invoice);
 
         Invoice GetInvoice(int InvoiceID);
 

@@ -6,6 +6,9 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 
 namespace InvoicingMicroservice.Services
 {
@@ -30,21 +33,27 @@ namespace InvoicingMicroservice.Services
             string responseBody = await response.Content.ReadAsStringAsync();
             Customer customer =  ParseJsonIntoCustomerAsync(responseBody);
 
-            return new Customer();
+            return customer;
         }
 
         private Customer ParseJsonIntoCustomerAsync(string responseBody)
         {
-            Customer customer = new Customer()
+            try
             {
-                CustomerID = (int)JObject.Parse(responseBody)["Id"],
-                ContactForename = JObject.Parse(responseBody)["ContactForename"].ToString(),
-                ContactSurname = JObject.Parse(responseBody)["ContactSurname"].ToString(),
-                CustomerEmail = JObject.Parse(responseBody)["CustomerEmail"].ToString(),
-                CustomerAddress = JObject.Parse(responseBody)["CustomerAddress"].ToString(),
-            };
-            return customer;
+                Customer customer = new Customer()
+                {
+                    CustomerID = (int) JObject.Parse(responseBody)["Id"],
+                    ContactForename = JObject.Parse(responseBody)["ContactForename"].ToString(),
+                    ContactSurname = JObject.Parse(responseBody)["ContactSurname"].ToString(),
+                    CustomerEmail = JObject.Parse(responseBody)["CustomerEmail"].ToString(),
+                    CustomerAddress = JObject.Parse(responseBody)["CustomerAddress"].ToString(),
+                };
+                return customer;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
-
     }
 }

@@ -13,27 +13,26 @@ namespace InvoicingMicroservice.Controllers
 {
     public class InvoicesController : Controller
     {
-        private readonly DBService _context;
-         
-        private readonly InvoiceSenderService _iss;
+        private readonly IDBService _dbs;
+        private readonly IInvoiceService _iss;
 
-        public InvoicesController(DBService context,InvoiceSenderService iss)
+        public InvoicesController(IInvoiceService iss,IDBService dbs)
         {
+            _dbs = dbs;
             _iss = iss;
-            _context = context;
         }
 
         public IActionResult Index()
         {
-            var Invoices = _context.GetAllInvoices();
+            var Invoices = _dbs.GetAllInvoices();
             Invoices.Where(i => i.hasInvoice == 0);
             return View(Invoices.Where(i => i.hasInvoice == 0));
         }
 
         public async Task<IActionResult> SendInvoice(int id)
         {          
-            _iss.SendInvoiceAsync(_context.GetInvoice(id));
-            _context.UpdateInvoicedStatus(id);
+            _iss.SendInvoiceAsync(_dbs.GetInvoice(id));
+            _dbs.UpdateInvoicedStatus(id);
             return RedirectToAction("Index");
         }      
     }

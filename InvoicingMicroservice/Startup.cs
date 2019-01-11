@@ -36,8 +36,10 @@ namespace InvoicingMicroservice
             HttpClient httpClient = new HttpClient();
             services.AddSingleton<HttpClient>(httpClient);
 
-            services.AddTransient<DBService, DBService>();
-            services.AddTransient<InvoiceSenderService, InvoiceSenderService>();
+            services.AddTransient<IDBService, DBService>();
+
+            services.AddTransient<IInvoiceService, InvoiceService>();
+            services.AddTransient<IInvoiceService, FakeInvoiceService>();
 
             services.AddScoped<ICustomerService, CustomerService>();
 
@@ -76,7 +78,7 @@ namespace InvoicingMicroservice
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Invoices}/{action=Index}/{id?}");
             });
         }
     }
