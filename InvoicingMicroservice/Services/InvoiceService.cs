@@ -18,7 +18,7 @@ namespace InvoicingMicroservice.Services
     public interface IInvoiceService
     {
         Task<IActionResult> SendInvoiceAsync(Invoice invoice);
-        Task<IActionResult> SendEmail(string email, string subject, string htmlContent);
+ 
     }
 
     public class InvoiceService : IInvoiceService
@@ -33,6 +33,7 @@ namespace InvoicingMicroservice.Services
             _cs =  cs;
             _dbs = dbs;
         }
+
         public async Task<IActionResult> SendInvoiceAsync(Invoice invoice)
         {
            if (invoice == null)
@@ -73,16 +74,15 @@ namespace InvoicingMicroservice.Services
             var Invoices = await response.Content.ReadAsAsync<IEnumerable<Invoice>>().ToAsyncEnumerable().ToList();
             List<Invoice> CurrentInvoices = _dbs.GetAllInvoices();
 
+            foreach (Invoice Invoice in Invoices)
+                if (50 < Int32.Parse(Invoice.Total))
+                    SendInvoiceAsync(Invoice);
+
             foreach (Invoice inv in CurrentInvoices)
                 CurrentInvoices = CurrentInvoices.Where(x => !x.PaymentDateTime.Equals(inv.PaymentDateTime) && x.OrderID == inv.OrderID).ToList();
 
             foreach (Invoice inv in CurrentInvoices)
                 _dbs.SaveInvoice(inv);
-        }
-
-        Task<IActionResult> IInvoiceService.SendEmail(string email, string subject, string htmlContent)
-        {
-            throw new NotImplementedException();
         }
     }
 }
