@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.28307.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InvoicingMicroservice", "InvoicingMicroservice\InvoicingMicroservice.csproj", "{FB6B1E88-1C23-41E2-8D31-F341D9D2219A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvoicingMicroserviceTest", "InvoicingMicroserviceTest\InvoicingMicroserviceTest.csproj", "{6842145A-45C2-428E-8FDF-CEEF68A6B4F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InvoicingMicroserviceTest", "InvoicingMicroserviceTest\InvoicingMicroserviceTest.csproj", "{6842145A-45C2-428E-8FDF-CEEF68A6B4F3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
